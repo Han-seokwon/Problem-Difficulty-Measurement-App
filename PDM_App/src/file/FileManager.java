@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FileManager {
+	public static String emailToFilename(String email) {
+		return email.replace('@','0').replace('.', '1');
+	}
 	
 	public static boolean createObjectFile(Object obj, String filepath) {
 		// TODO : 기존에 파일이 있는 경우 처리 
@@ -42,15 +45,14 @@ public class FileManager {
 		return obj;
 	}
 	
-	public static HashMap<String, Object> readAllObjectFileInDirectory(String dirpath) {
-		HashMap<String, Object> objMap = new HashMap<>();		
+	public static ArrayList<Object> readAllObjectFileInDirectory(String dirpath) {
+		ArrayList<Object> objList = new ArrayList<>();		
 		File dir = new File(dirpath);
 		File[] objFiles = dir.listFiles();
 		for( File file : objFiles) {
-			String filename = file.getName().substring(0, file.getName().indexOf('.'));// 확장자 제거
-			objMap.put(filename, readObjectFile(file));
+			objList.add(readObjectFile(file));
 		}		
-		return objMap;
+		return objList;
 	}	
 	
 }

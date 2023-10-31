@@ -1,9 +1,18 @@
 package gui;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import users.AccountManager;
 
 public class LoginFrame extends JFrame{
 
@@ -27,17 +36,26 @@ public class LoginFrame extends JFrame{
 	            public void actionPerformed(ActionEvent e) {
 	                String email = emailField.getText();
 	                String password = new String(passwordField.getPassword());
-
-	                
-	                // Add your login logic here
-
-	                JOptionPane.showMessageDialog(LoginFrame.this, "로그인 성공!");
+	                boolean loginSuccess = true;
+	                String dialogMsg = "로그인 성공";
+	                try {
+	                	AccountManager.loginCheck(email, password);						
+					} catch (NullPointerException err) {
+						err.printStackTrace();
+						
+						dialogMsg = err.getMessage();
+						loginSuccess = false;					
+					}	                
+	                JOptionPane.showMessageDialog(LoginFrame.this, dialogMsg);
+	                if(loginSuccess) {
+	                	dispose();
+	                }
 	            }
 	        });
 
 	        findPasswordButton.addActionListener(new ActionListener() {
 	            @Override
-	            public void actionPerformed(ActionEvent e) {
+	            public void actionPerformed(ActionEvent e2) {
 	                // Add your password recovery logic here
 
 	                JOptionPane.showMessageDialog(LoginFrame.this, "비밀번호 찾기 클릭됨.");
@@ -50,12 +68,12 @@ public class LoginFrame extends JFrame{
 	        panel.add(passwordLabel);
 	        panel.add(passwordField);
 	        panel.add(loginButton);
-	        panel.add(recoveryButton);
+	        panel.add(findPasswordButton);
 
 	        add(panel);
 
-	        setSize(300, 150);
-	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        setSize(500, 500);
+	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 추후 DISPOSE_ON_CLOSE로 변경
 	        setVisible(true);
 	    }
 

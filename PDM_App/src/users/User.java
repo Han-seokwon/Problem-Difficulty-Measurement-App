@@ -8,7 +8,7 @@ import problems.Problem;
 public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도록 직렬화함
     private String username;
     private String email;
-    private String password; 
+    private String password_hashed; 
     private ArrayList<Problem> solvedProblems = new ArrayList<>();
     
     // Constructor
@@ -16,21 +16,20 @@ public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
-        String salt = email.substring(email.indexOf("@"));
-        this.password = PasswordManager.hashPassword(password, salt);
+        this.password_hashed = PasswordManager.hashPassword(password, email);
         
     }
     
     @Override
 	public String toString() {
-		return "User [username=" + username + ", email=" + email + ", password=" + password + ", solvedProblems="
+		return "User [username=" + username + ", email=" + email + ", password_hashed=" + password_hashed + ", solvedProblems="
 				+ solvedProblems + "]";
 	}
 	// static
     public static boolean isVaild(User user) {
-    	if( user.getEmail().isEmpty() ||
-    			user.getusername().isEmpty() ||
-    			user.getPassword().isEmpty()) {
+    	if( user.getEmail() == null ||
+    			user.getusername() == null ||
+    			user.getPassword_hashed() == null) {
     		return false;
     	} else {
     		return true;
@@ -39,11 +38,11 @@ public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도
 
     // Getters and setters
 
-	public String getPassword() {
-		return password;
+	public String getPassword_hashed() {
+		return password_hashed;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPassword_hashed(String password_hashed) {
+		this.password_hashed = password_hashed;
 	}
 	public ArrayList<Problem> getSolvedProblems() {
 		return solvedProblems;

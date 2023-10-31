@@ -7,8 +7,9 @@ import java.util.Base64;
 
 public class PasswordManager {
     
-    public static String hashPassword(String password, String salt) {
+    public static String hashPassword(String password, String email) {
         try {
+        	String salt = email.substring(email.indexOf("@"));
             MessageDigest md = MessageDigest.getInstance("SHA-256");
             md.update((password + salt).getBytes()); // userIndex를 솔트로 사용
             byte[] hashedBytes = md.digest();
