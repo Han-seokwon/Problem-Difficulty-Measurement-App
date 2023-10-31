@@ -7,10 +7,10 @@ import java.util.Base64;
 
 public class PasswordManager {
     
-    public static String hashPassword(String password, int userIndex) {
+    public static String hashPassword(String password, String salt) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update((password + userIndex).getBytes()); // userIndex를 솔트로 사용
+            md.update((password + salt).getBytes()); // userIndex를 솔트로 사용
             byte[] hashedBytes = md.digest();
 
             StringBuilder sb = new StringBuilder();

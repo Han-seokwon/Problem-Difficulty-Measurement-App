@@ -5,17 +5,19 @@ import java.util.ArrayList;
 import problems.Problem;
 
 public class User {
-    private String username = "";
-    private String email = "";
-    private String password = ""; 
-    private ArrayList<Problem> solvedProblems;
+    private String username;
+    private String email;
+    private String password; 
+    private ArrayList<Problem> solvedProblems = new ArrayList<>();
     
     // Constructor
     public User() {}
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
-        this.password = PasswordManager.hashPassword(password, userId);
+        String salt = email.substring(email.indexOf("@"));
+        this.password = PasswordManager.hashPassword(password, salt);
+        
     }
     
     // static
@@ -23,9 +25,9 @@ public class User {
     	if( user.getEmail().isEmpty() ||
     			user.getusername().isEmpty() ||
     			user.getPassword().isEmpty()) {
-    		return false
+    		return false;
     	} else {
-    		return true
+    		return true;
     	}
     }
 
@@ -52,10 +54,6 @@ public class User {
     public String getEmail() {
         return email;
     }
-
-    
-    
-   
 
     // Other methods as needed
 }
