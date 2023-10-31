@@ -5,26 +5,32 @@ import java.util.ArrayList;
 import problems.Problem;
 
 public class User {
-	private static int userIndexCount = 0;
-    private final int userId; // 사용자 식별자
-    private String userName;
-    private String email;
-    private String password; 
+    private String username = "";
+    private String email = "";
+    private String password = ""; 
     private ArrayList<Problem> solvedProblems;
     
     // Constructor
-    public User() {this(null, null, null);}
-    public User(String userName, String email, String password) {
-        this.userId = userIndexCount++;
-        this.userName = userName;
+    public User() {}
+    public User(String username, String email, String password) {
+        this.username = username;
         this.email = email;
         this.password = PasswordManager.hashPassword(password, userId);
     }
+    
+    // static
+    public static boolean isVaild(User user) {
+    	if( user.getEmail().isEmpty() ||
+    			user.getusername().isEmpty() ||
+    			user.getPassword().isEmpty()) {
+    		return false
+    	} else {
+    		return true
+    	}
+    }
 
     // Getters and setters
-    public int getUserId() {
-        return userId;
-    }
+
 	public String getPassword() {
 		return password;
 	}
@@ -34,18 +40,19 @@ public class User {
 	public ArrayList<Problem> getSolvedProblems() {
 		return solvedProblems;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setusername(String username) {
+		this.username = username;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getUserName() {
-        return userName;
+	public String getusername() {
+        return username;
     }
     public String getEmail() {
         return email;
     }
+
     
     
    
