@@ -1,10 +1,11 @@
 package users;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import problems.Problem;
 
-public class User {
+public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도록 직렬화함
     private String username;
     private String email;
     private String password; 
@@ -20,7 +21,12 @@ public class User {
         
     }
     
-    // static
+    @Override
+	public String toString() {
+		return "User [username=" + username + ", email=" + email + ", password=" + password + ", solvedProblems="
+				+ solvedProblems + "]";
+	}
+	// static
     public static boolean isVaild(User user) {
     	if( user.getEmail().isEmpty() ||
     			user.getusername().isEmpty() ||
