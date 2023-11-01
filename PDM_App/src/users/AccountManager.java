@@ -44,25 +44,22 @@ public class AccountManager {
 		String filepath = System.getProperty("user.dir") + String.format("\\src\\users\\UserDB\\%s.txt", filename); // 경로 지정
 		FileManager.createObjectFile(user, filepath);
 		UserDBManager.addUser(user.getEmail(), user);
-		// 파일 생성 확인용
-//		Object obj = FileManager.readObjectFile(path);//		
-//		if(obj instanceof User) {
-//			System.out.println((User)obj);
-//		} 
 	}
 	
 	public static void loginCheck(String email, String password) throws NullPointerException{
-		// 이메일 확인
 		System.out.println(email);
 		System.out.println(password);
-		User user = UserDBManager.findUserByEmail(email);
-		if(!User.isVaild(user)) { // 해당하는 이메일이 없는 경우
-			throw new NullPointerException("경고 : 존재하지 않는 이메일입니다.");
-		} 
-		// 비밀번호 확인
-		String hashedPw = PasswordManager.hashPassword(password, email);
-		if(!hashedPw.equals(user.getPassword_hashed())) {
-			throw new NullPointerException("경고 : 비밀번호가 다릅니다.");
+		try {
+			// 이메일 확인
+			User user = UserDBManager.findUserByEmail(email); // 이메일 없으면 throws NullPointerException
+			// 비밀번호 확인
+			String hashedPw = PasswordManager.hashPassword(password, email);
+			if(!hashedPw.equals(user.getPassword_hashed())) {
+				throw new NullPointerException("경고 : 비밀번호가 다릅니다.");
+			}
+		} catch (NullPointerException e) { 
+			// 에러 메시지를 전달하기 위해 예외 되던지기
+			throw e;
 		}
 		
 	}

@@ -22,9 +22,12 @@ public class UserDBManager {
 		return userDBMap.containsKey(email);
 	}
 	
-	public static User findUserByEmail(String email) {
-		// 해당하는 유저가 있는지 확인 없으면 빈 인스턴스 반환
-		return userDBMap.getOrDefault(email, new User());
+	public static User findUserByEmail(String email) throws NullPointerException{
+		User userFound = userDBMap.get(email);
+		if(userFound == null) { // 해당 이메일이 없는 경우
+			throw new NullPointerException("경고 : 존재하지 않는 이메일입니다.");
+		}
+		return userFound;
 		// TODO : 방어적 복사를 통해 객체를 변경할 수 없게 하기
 	}
 	
@@ -33,7 +36,7 @@ public class UserDBManager {
 		if(!User.isVaild(user)) { // 전달된 유저객체가 유효한지 확인
 			return false;
 		}
-		// TODO : 기존에 같은 id가 있는 경우 처리
+		// TODO : 기존에 같은 id가 있는 경우 예외 처리
 		userDBMap.put(email, user);
 		return true;
 	}
