@@ -1,3 +1,4 @@
+import gui.AccountCreateFrame;
 import gui.LoginFrame;
 import users.AccountManager;
 import users.User;
@@ -7,7 +8,6 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-//		new AccountCreateGUI();
 		User user = new User("qwer", "qwr@na.com", "d1dd");
 		AccountManager.createAccount(user);
 		User user2 = new User("vbnm", "vbnm12@na.com", "saddwq12");
@@ -16,7 +16,8 @@ public class Main {
 		AccountManager.createAccount(user3);
 		UserDBManager.init();
 		UserDBManager.printuserDBMap();
-		new LoginFrame();
+		new AccountCreateFrame();
+//		new LoginFrame();
 	}
 
 }

@@ -21,7 +21,10 @@ public class AccountManager {
         	errMsg += "경고: 올바른 이메일 형식이 아닙니다.\n";
         }
         
-        // TODO : 중복되는 이메일이 있는지 확인
+        // 중복되는 이메일이 있는지 확인
+        if (UserDBManager.isEmailExist(email)) {
+        	errMsg += "경고: 이미 등록된 이메일입니다.\n";
+        }
         
         // 최소 8자 이상, 영문자와 숫자 각각 1개 이상 포함        
         if (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", password)) {

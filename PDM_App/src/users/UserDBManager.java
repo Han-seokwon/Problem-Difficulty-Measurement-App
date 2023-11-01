@@ -18,10 +18,14 @@ public class UserDBManager {
         }
 	}
 	
+	public static boolean isEmailExist(String email) {
+		return userDBMap.containsKey(email);
+	}
+	
 	public static User findUserByEmail(String email) {
 		// 해당하는 유저가 있는지 확인 없으면 빈 인스턴스 반환
+		return userDBMap.getOrDefault(email, new User());
 		// TODO : 방어적 복사를 통해 객체를 변경할 수 없게 하기
-		return userDBMap.getOrDefault(email, new User());				 
 	}
 	
 	

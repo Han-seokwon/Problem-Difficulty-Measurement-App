@@ -29,7 +29,7 @@ public class LoginFrame extends JFrame{
 	        passwordField = new JPasswordField(20);
 
 	        JButton loginButton = new JButton("로그인");
-	        JButton findPasswordButton = new JButton("비밀번호 찾기");
+	        JButton findPasswordButton = new JButton("비밀번호 초기화");
 
 	        loginButton.addActionListener(new ActionListener() {
 	            @Override

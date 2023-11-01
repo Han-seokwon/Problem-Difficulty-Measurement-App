@@ -10,6 +10,10 @@ public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도
     private String email;
     private String password_hashed; 
     private ArrayList<Problem> solvedProblems = new ArrayList<>();
+    enum RANK { // TODO : 티어 몇까지?
+    	RANK1, RANK2, RANK3, RANK4, RANK5
+    }
+    private RANK rank = RANK.RANK1;
     
     // Constructor
     public User() {}
