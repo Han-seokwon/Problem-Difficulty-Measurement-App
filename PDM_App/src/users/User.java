@@ -67,7 +67,7 @@ public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도
 	}
 
 	public RANK getRank() {
-		return RANK.valueOf(rank.name()); // 값복사를 위해 새로운 열거형 생성
+		return RANK.valueOf(rank.name()); // 깊은 복사를 위해 새로운 열거형 생성
 	}
 	public int getRankPoint() {
 		return rankPoint; 
@@ -97,8 +97,8 @@ public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도
 				+ "]";
 	}
     
-	public static boolean isVaild(User user) {
-    	// 유저 인스턴스가 유효한지 확인
+    // 유저 인스턴스가 유효한지 확인
+	public static boolean isVaild(User user) {    	
     	if( user.getEmail() == null ||
     			user.getUsername() == null ||
     			user.getPassword_hashed() == null ||
@@ -108,21 +108,22 @@ public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도
     		return true;
     	}
     }
+	
+	// 유저의 랭크 포인트를 증가하고 다음 티어 진급을 위한 포인트를 넘기면 티어 상승	
     public void addRankPoint( int rankPoint) {
-    	// 유저의 랭크 포인트를 증가하고 다음 티어 진급을 위한 포인트를 넘기면 티어 상승
     	this.rankPoint += rankPoint;
     	RANK nextRank = this.rank.getNextRank();
     	if (this.rankPoint >= nextRank.getRequireRankPoint()) {
 			this.rank = nextRank;
 		}
     }
-    
+    // 해결된 문제를 문제 리스트에 추가함
     public void addSolvedProblemData(SolvedProblem problem) {
     	this.solvedProblemList.add(problem);
     }
     
+	// 활동날짜리스트에 해당 날짜 추가
     public void addActivityDate(Date date) { 
-    	// 활동날짜리스트에 해당 날짜 추가
     	if(!this.activityDateList.contains(date)) {
     		this.activityDateList.add(date);    	
     	}

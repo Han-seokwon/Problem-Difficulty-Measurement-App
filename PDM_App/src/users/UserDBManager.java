@@ -17,11 +17,12 @@ public class UserDBManager {
             System.out.println("Key: " + key + ", Value: " + value.toString() + "\n");
         }
 	}
-	
+	// 해당하는 이메일이 존재하는지 확인 (등록된 유저인지 확인용)
 	public static boolean isEmailExist(String email) {
 		return userDBMap.containsKey(email);
 	}
 	
+	// 이메일에 해당하는 User 인스턴스 반환, isEmailExist() 사용하여 등록된 유저인지 확인후 사용하는 것 권장
 	public static User findUserByEmail(String email) throws NullPointerException{
 		User userFound = userDBMap.get(email);
 		if(userFound == null) { // 해당 이메일이 없는 경우
@@ -30,7 +31,7 @@ public class UserDBManager {
 		return userFound;
 	}
 	
-	
+	// 유저 데이터를 email을 key로 하여 해시맵에 추가함
 	public static boolean addUser(String email, User user) {
 		if(!User.isVaild(user)) { // 전달된 유저객체가 유효한지 확인
 			return false;
@@ -39,10 +40,14 @@ public class UserDBManager {
 		userDBMap.put(email, user);
 		return true;
 	}
+	
+	// UserDB 폴더에 저장된 객체 파일들을 해시맵에 저장하여 초기화, 프로그램 시작시 한 번만 실행
 	public static void init() {
-		String dirpath = FileManager.getPackageRootDir() + String.format("\\users\\UserDB"); // 경로 지정
-		ArrayList<Object> objList = FileManager.readAllObjectFileInDirectory(dirpath);
+		String dirpath = String.format("\\users\\UserDB"); // 경로 지정
+		// 해당 폴더에 저장된 모든 파일을 Object로 변환하여 ArrayList<Object>로 변환 
+		ArrayList<Object> objList = FileManager.readAllObjectFileInDirectory(dirpath); 
 		try {
+			// 각 Object 들을 User로 형변환
 			for (Object obj : objList) {			 
 				if(obj instanceof User) {
 					User user = (User)obj;
@@ -52,7 +57,6 @@ public class UserDBManager {
 				}
 			}
 		} catch (ClassCastException e) {
-			System.out.println(e.getMessage());
 			e.printStackTrace();			
 		}
 	}

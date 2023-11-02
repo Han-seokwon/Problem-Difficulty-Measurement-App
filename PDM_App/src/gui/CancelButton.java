@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 public class CancelButton extends JButton{
+	// 상위프레임을 닫는 핸들러를 추가한 취소버튼을 생성하는 버튼 클래스
 	public CancelButton() {
 		this("취소");
 	}

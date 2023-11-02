@@ -7,8 +7,14 @@ import file.FileManager;
 
 public class AccountManager {
 	
+	// 회원가입 정보 유효성 확인 메서드
 	public static void registerInputCheck(String name, String email, String password, String passwordConfirm, String answer) throws IOException{
 		String errMsg = "";
+		
+		if(name.isEmpty()) {
+			errMsg += "경고: 사용자 이름이 입력되지 않았습니다.\n";
+		}
+		
 		 // 특수문자 제외
         if (!Pattern.matches("[a-zA-Z0-9]+", name)) {
         	errMsg += "경고: 사용자 이름에 특수 문자를 사용할 수 없습니다.\n";
@@ -38,9 +44,10 @@ public class AccountManager {
         	throw new IOException(errMsg);
         }                
 	}
-	
+
+	// 비밀번호 유효성 확인용 메서드 (비밀번호 초기화에서도 사용하므로 별개의 메서드로 분리) 
 	public static void checkPasswordVaildity(String password, String passwordConfirm) throws IOException{
-		// 비밀번호 초기화에서도 사용하므로 별개의 메서드로 분리
+
 		String errMsg = "";
         // 최소 8자 이상, 영문자와 숫자 각각 1개 이상 포함        
         if (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", password)) {
@@ -54,14 +61,16 @@ public class AccountManager {
         	throw new IOException(errMsg);
         } 
 	}
-	
+
+	// 계정 생성, UserDB 폴더에 파일로 저장하고 UserDBManager 해시맵에도 저장하는 메서드
 	public static void createAccount(User user) {
 		String filename = FileManager.emailToFilename(user.getEmail());
 		String filepath = String.format("\\users\\UserDB\\%s.txt", filename); // 경로 지정
 		FileManager.createUpdateObjectFile(user, filepath); // UserDB 폴더에 객체 텍스트 파일 생성
-		UserDBManager.addUser(user.getEmail(), user); // UserDB 해시맵에 객체 추가
+		UserDBManager.addUser(user.getEmail(), user); // UserDBManager 해시맵에 객체 추가
 	}
 	
+	// 로그인 정보 유효성 확인 메서드
 	public static void checklogin(String email, String password) throws NullPointerException{
 		System.out.println(email);
 		System.out.println(password);
@@ -78,7 +87,7 @@ public class AccountManager {
 		}
 	}
 	
-	
+	// 사용자의 비밀번호를 변경하는 메서드, UserDB 폴더에 저장된 객체파일도 수정
 	public static void updatePassword(User user, String newPassWord) {
 		String newPassword_hashed = PasswordManager.hashPassword(newPassWord, user.getEmail());
 		user.setPassword_hashed(newPassword_hashed);		

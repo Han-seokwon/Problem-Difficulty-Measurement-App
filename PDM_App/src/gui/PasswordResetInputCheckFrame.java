@@ -18,10 +18,14 @@ import users.User;
 import users.UserDBManager;
 
 public class PasswordResetInputCheckFrame extends JFrame{
+	
+//	 비밀번호 초기화 과정 3단계로 유저이름, 이메일, 비번 초기화 답변이 모두 인증된 사용자가 최종적으로 새롭게 변경할 비밀번호를 입력하는 프레임
+	
 	private JPasswordField newPasswordField;
 	private JPasswordField passwordConfirmField;
 	private JButton resetButton;
 	private User user;
+	// 현재 비밀번호를 초기화하려는 User 인스턴스를 인자로 받음
 	public PasswordResetInputCheckFrame(User user) {
 		this.user = user;
 		
@@ -71,6 +75,7 @@ public class PasswordResetInputCheckFrame extends JFrame{
 				isValidPw = false;
 			} 
 			if(isValidPw) {
+//				 비밀번호 초기화과 완료되었다는 팝업창을 띄우고 비밀번호를 업데이트함
 				JOptionPane.showMessageDialog(null, "비밀번호가 초기화되었습니다.", "비밀번호 초기화 성공", JOptionPane.INFORMATION_MESSAGE);
 				AccountManager.updatePassword(user, newPassword);// 비밀번호 업데이트
 				dispose(); 
