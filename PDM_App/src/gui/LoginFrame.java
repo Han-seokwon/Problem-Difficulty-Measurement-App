@@ -29,38 +29,10 @@ public class LoginFrame extends JFrame{
 	        passwordField = new JPasswordField(20);
 
 	        JButton loginButton = new JButton("로그인");
-	        JButton findPasswordButton = new JButton("비밀번호 초기화");
+	        JButton resetPasswordButton = new JButton("비밀번호 초기화");
 
-	        loginButton.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e) {
-	                String email = emailField.getText();
-	                String password = new String(passwordField.getPassword());
-	                boolean loginSuccess = true;
-	                String dialogMsg = "로그인 성공";
-	                try {
-	                	AccountManager.loginCheck(email, password);						
-					} catch (NullPointerException err) {
-						err.printStackTrace();
-						
-						dialogMsg = err.getMessage();
-						loginSuccess = false;					
-					}	                
-	                JOptionPane.showMessageDialog(LoginFrame.this, dialogMsg);
-	                if(loginSuccess) {
-	                	dispose();
-	                }
-	            }
-	        });
-
-	        findPasswordButton.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent e2) {
-	                // Add your password recovery logic here
-
-	                JOptionPane.showMessageDialog(LoginFrame.this, "비밀번호 찾기 클릭됨.");
-	            }
-	        });
+	        loginButton.addActionListener(new LoginButtonListener());
+	        resetPasswordButton.addActionListener(new ResetButtonListener());
 
 	        JPanel panel = new JPanel(new GridLayout(3, 2));
 	        panel.add(emailLabel);
@@ -68,7 +40,7 @@ public class LoginFrame extends JFrame{
 	        panel.add(passwordLabel);
 	        panel.add(passwordField);
 	        panel.add(loginButton);
-	        panel.add(findPasswordButton);
+	        panel.add(resetPasswordButton);
 
 	        add(panel);
 
@@ -76,5 +48,37 @@ public class LoginFrame extends JFrame{
 	        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 추후 DISPOSE_ON_CLOSE로 변경
 	        setVisible(true);
 	    }
+	    
+	    
+	    class LoginButtonListener implements ActionListener {
+	    	@Override
+            public void actionPerformed(ActionEvent e) {
+                String email = emailField.getText();
+                String password = new String(passwordField.getPassword());
+                boolean loginSuccess = true;
+                String dialogMsg = "로그인 성공";
+                try {
+                	AccountManager.checklogin(email, password);						
+				} catch (NullPointerException err) {					
+					dialogMsg = err.getMessage();
+					loginSuccess = false;					
+				}	                
+                JOptionPane.showMessageDialog(LoginFrame.this, dialogMsg);
+                if(loginSuccess) {
+                	dispose();
+                }
+            }
+	    }
+	    
+	    class ResetButtonListener implements ActionListener {
+            @Override
+            public void actionPerformed(ActionEvent e2) {   
+            	// 비밀번호 초기화 전 유저이름, 이메일 확인 프레임 생성
+                new PasswordResetUsernameEmailCheckFrame(); 
+            }
+	    }
+	    
+	    
+	    
 
 }

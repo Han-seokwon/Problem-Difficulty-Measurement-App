@@ -14,7 +14,7 @@ public class UserDBManager {
 		for (Map.Entry<String, User> entry : userDBMap.entrySet()) {
             String key = entry.getKey();
             User value = entry.getValue();
-            System.out.println("Key: " + key + ", Value: " + value.toString());
+            System.out.println("Key: " + key + ", Value: " + value.toString() + "\n");
         }
 	}
 	
@@ -28,7 +28,6 @@ public class UserDBManager {
 			throw new NullPointerException("경고 : 존재하지 않는 이메일입니다.");
 		}
 		return userFound;
-		// TODO : 방어적 복사를 통해 객체를 변경할 수 없게 하기
 	}
 	
 	
@@ -36,12 +35,12 @@ public class UserDBManager {
 		if(!User.isVaild(user)) { // 전달된 유저객체가 유효한지 확인
 			return false;
 		}
-		// TODO : 기존에 같은 id가 있는 경우 예외 처리
+		// TODO : 기존에 같은 email가 있는 경우 예외 처리
 		userDBMap.put(email, user);
 		return true;
 	}
 	public static void init() {
-		String dirpath = System.getProperty("user.dir") + String.format("\\src\\users\\UserDB"); // 경로 지정
+		String dirpath = FileManager.getPackageRootDir() + String.format("\\users\\UserDB"); // 경로 지정
 		ArrayList<Object> objList = FileManager.readAllObjectFileInDirectory(dirpath);
 		try {
 			for (Object obj : objList) {			 
@@ -51,10 +50,10 @@ public class UserDBManager {
 				} else {
 					throw new ClassCastException("User 인스턴스로 변환할 수 없습니다.");
 				}
-
 			}
 		} catch (ClassCastException e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();			
 		}
 	}
 	
