@@ -10,7 +10,7 @@ public class UserDBManager {
 
 	private static HashMap<String, User> userDBMap = new HashMap<>();	
 	
-	public static void printuserDBMap() { // µð¹ö±ë¿ë
+	public static void printUserDBMap() { // µð¹ö±ë¿ë
 		for (Map.Entry<String, User> entry : userDBMap.entrySet()) {
             String key = entry.getKey();
             User value = entry.getValue();

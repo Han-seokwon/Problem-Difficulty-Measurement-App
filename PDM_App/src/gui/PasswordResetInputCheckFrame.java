@@ -40,7 +40,7 @@ public class PasswordResetInputCheckFrame extends JFrame{
 
 		resetButton = new JButton("비밀번호 초기화");
 		// 초기화 버튼에 이벤트 핸들러 적용
-		resetButton.addActionListener(new CheckNewPassword());
+		resetButton.addActionListener(new CheckNewPasswordListener());
 
 		// 레이아웃
 		setLayout(new GridLayout(3, 2, 70, 70));
@@ -61,7 +61,7 @@ public class PasswordResetInputCheckFrame extends JFrame{
 
 	}
 
-	class CheckNewPassword implements ActionListener{
+	class CheckNewPasswordListener implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			boolean isValidPw = true;
