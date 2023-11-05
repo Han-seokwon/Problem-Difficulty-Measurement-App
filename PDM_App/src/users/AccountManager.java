@@ -16,7 +16,7 @@ public class AccountManager {
 		}
 		
 		 // Æ¯¼ö¹®ÀÚ Á¦¿Ü
-        if (!Pattern.matches("[a-zA-Z0-9]+", name)) {
+        if (!Pattern.matches("[a-zA-Z°¡-ÆR0-9]+", name)) {
         	errMsg += "°æ°í: »ç¿ëÀÚ ÀÌ¸§¿¡ Æ¯¼ö ¹®ÀÚ¸¦ »ç¿ëÇÒ ¼ö ¾ø½À´Ï´Ù.\n";
         }
         

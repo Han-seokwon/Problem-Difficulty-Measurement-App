@@ -21,7 +21,7 @@ public class Main {
 		UserDBManager.init();
 		
 		// DB Ãâ·Â 
-		UserDBManager.printuserDBMap();
+		UserDBManager.printUserDBMap();
 		
 		new AccountCreateFrame();
 		new LoginFrame();

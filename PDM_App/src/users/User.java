@@ -20,7 +20,7 @@ public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도
     private ArrayList<SolvedProblem> solvedProblemList = new ArrayList<>();
     private ArrayList<Date> activityDateList= new ArrayList<>();    
     
-    private static final long SERIAL_VERSION_UID = 1L; // 직렬화 버전 설정
+    private static final long serialVersionUID = 1L; // 직렬화 버전 설정
     
     // Constructor
     public User() {}
