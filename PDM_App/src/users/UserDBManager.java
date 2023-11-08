@@ -22,7 +22,11 @@ public class UserDBManager {
 		return userDBMap.containsKey(email);
 	}
 	
-	// 이메일에 해당하는 User 인스턴스 반환, isEmailExist() 사용하여 등록된 유저인지 확인후 사용하는 것 권장
+	
+	/*
+	 * 이메일에 해당하는 User 인스턴스 반환, isEmailExist() 사용하여 등록된 유저인지 확인후 사용하는 것 권장
+	 * return : 인자로 전달된 이메일에 일치하는 유저
+	 */
 	public static User findUserByEmail(String email) throws NullPointerException{
 		User userFound = userDBMap.get(email);
 		if(userFound == null) { // 해당 이메일이 없는 경우
@@ -31,7 +35,10 @@ public class UserDBManager {
 		return userFound;
 	}
 	
-	// 유저 데이터를 email을 key로 하여 해시맵에 추가함
+	/*
+	 *  유저 데이터의 유효성을 검사하고 email을 key로 하여 해시맵에 추가함
+	 *  return : 정상적으로 추가되었는지 여부를 반환
+	 */
 	public static boolean addUser(String email, User user) {
 		if(!User.isVaild(user)) { // 전달된 유저객체가 유효한지 확인
 			return false;

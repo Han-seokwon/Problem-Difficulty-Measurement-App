@@ -7,7 +7,9 @@ import java.util.Base64;
 
 
 public class PasswordManager {
-	// 비밀번호를 해싱하는 메서드, 이메일을 솔트로 이용함    
+	/* 비밀번호를 해싱하는 메서드, 이메일을 솔트로 이용함
+	 * return : 해싱된 문자열   
+	 */
     public static String hashPassword(String password, String email) {
         try {
         	// @를 기준으로 앞의 문자열을 추출

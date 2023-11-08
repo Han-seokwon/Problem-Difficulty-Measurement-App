@@ -8,6 +8,7 @@ import file.FileManager;
 public class AccountManager {
 	
 	// 회원가입 정보 유효성 확인 메서드
+	// param : 이름, 이메일, 비번, 비번확인, 비번 초기화용 질문에 대한 답변
 	public static void registerInputCheck(String name, String email, String password, String passwordConfirm, String answer) throws IOException{
 		String errMsg = "";
 		
@@ -45,7 +46,7 @@ public class AccountManager {
         }                
 	}
 
-	// 비밀번호 유효성 확인용 메서드 (비밀번호 초기화에서도 사용하므로 별개의 메서드로 분리) 
+	// 비밀번호 유효성 확인용 메서드 (비밀번호 초기화에서도 사용하므로 별개의 메서드로 분리)
 	public static void checkPasswordVaildity(String password, String passwordConfirm) throws IOException{
 
 		String errMsg = "";
@@ -62,7 +63,9 @@ public class AccountManager {
         } 
 	}
 
-	// 계정 생성, UserDB 폴더에 파일로 저장하고 UserDBManager 해시맵에도 저장하는 메서드
+	/* 회원 정보의 유효성이 확인된 유저를 UserDB 폴더에 파일로 저장하고 UserDBManager 해시맵에도 저장하는 메서드
+	 * param :  회원 정보의 유효성이 확인된 유저 객체
+	 */
 	public static void createAccount(User user) {
 		String filename = FileManager.emailToFilename(user.getEmail());
 		String filepath = String.format("\\users\\UserDB\\%s.txt", filename); // 경로 지정
@@ -70,7 +73,7 @@ public class AccountManager {
 		UserDBManager.addUser(user.getEmail(), user); // UserDBManager 해시맵에 객체 추가
 	}
 	
-	// 로그인 정보 유효성 확인 메서드
+	// 이메일, 비번을 입력받아 해당 회원이 존재하는지 확인하고, 비번이 일치하는지 확인하는 메서드
 	public static void checklogin(String email, String password) throws NullPointerException{
 		System.out.println(email);
 		System.out.println(password);
@@ -87,7 +90,9 @@ public class AccountManager {
 		}
 	}
 	
-	// 사용자의 비밀번호를 변경하는 메서드, UserDB 폴더에 저장된 객체파일도 수정
+	/* 사용자의 비밀번호를 변경하는 메서드, UserDB 폴더에 저장된 객체파일도 수정
+	 * param : 비번을 수정할 유저 객체, 수정할 비번 문자열
+	 */
 	public static void updatePassword(User user, String newPassWord) {
 		String newPassword_hashed = PasswordManager.hashPassword(newPassWord, user.getEmail());
 		user.setPassword_hashed(newPassword_hashed);		
