@@ -31,12 +31,6 @@ public class JsonFetcher {
 	public static JsonObject fetchJsonElementFromUrl(String urlString) throws IOException{
 		try {
 			
-			try { // 429 에러 방지용 호출 간격
-				Thread.sleep(1000); //1초 대기
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
 			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
@@ -112,23 +106,31 @@ public class JsonFetcher {
 		}
 		return solvedProblemIdList;
 	}
+	
 
 	/*
 	 * solved ac에 등록된 유저이름을 받아 해당 유저가 해결한 문제 데이터를 User 객체의 solvedProblemList에 추가함
 	 * notice : 이 메서드를 호출하기 전 ProblemDB에 solved ac에서 가져온 문제데이터들이 저장되어 있어야 함
 	 */
 	public static void updateUserSolvedProblemList_FromSolvedAC(String solvedacUsername, User user) {
-		String username = "hoh9170"; //
 		int problemPageCnt = getUserSolvedProblemPageCnt_FromSolvedAC(solvedacUsername);
 		ArrayList<Integer> solvedProblemIdList = getSolvedProblemIdList_FromSolvedAC(problemPageCnt, solvedacUsername);
 		System.out.println("해결한 문제 ID 리스트  : " + solvedProblemIdList);
-		System.out.println("해결한 문제 개수 : " +solvedProblemIdList.size());
-		// TODO : ProblemDB에 저장된 문제만 추가하게 함
+		System.out.println("해결한 문제 개수 : " +solvedProblemIdList.size());		
+		// 가져온 문제들 중에 현재 ProblemDB에 추가되지 않은 문제가 있을 수 있음 따라서 ProblemDBManager에 추가된 문제만 추가함
+		for(int problemId : solvedProblemIdList) {
+			Problem problem = ProblemDBManager.FindProblem(problemId);
+			if(problem.isVaild()) {
+				user.addSolvedProblemData(problem);
+			}
+		}
+
 
 	}
 
-
-	// solved에 등록된 모든 문제 개수 가져와 이를 토대로 응답 문제리스트 페이지 개수를 계산해서 반환
+	/*
+	 * solved에 등록된 모든 문제 개수 가져와 이를 토대로 응답 문제리스트 페이지 개수를 계산해서 반환
+	 */
 	public static int getProblemPageCnt_FromSolvedAC() {
 		int pageCnt = 0;
 		try {
@@ -144,6 +146,10 @@ public class JsonFetcher {
 		}
 		return pageCnt;
 	}
+	
+	/*
+	 * 해당 문제에 대한 알고리즘 분류 데이터를 가져와 ArrayList에 저장해서 반환
+	 */
 	public static ArrayList<String> getAlgorithmTagList(int problemId){
 		ArrayList<String> algorithmTagList = new ArrayList<>();
 		String urlString = "https://solved.ac/api/v3/problem/show?problemId=" + problemId;
@@ -173,7 +179,10 @@ public class JsonFetcher {
 		}
 		return algorithmTagList;
 	}
-
+	
+	/*
+	 * JSON 데이터에서 problemId, titleKo, 알고리즘 분류 데이터를 가져와 Problem 객체를 생성 후 반환
+	 */
 	public static Problem createProblemFromJsonElement(JsonElement items) {
 		JsonObject itemsJsonObj = items.getAsJsonObject();
 
@@ -187,7 +196,9 @@ public class JsonFetcher {
 		return new Problem(problemName, problemId, url, initialRank, algorithmTagList);
 	}
 
-
+	/*
+	 * solved에 등록된 문제데이터를 가져와 Problem 객체로 변환한 다음 ProblemDBManager와 ProblemDB 폴더에에 추가
+	 */
 	public static void updateProblemDB_FromSolvedAC() {
 		try {
 			String urlString = "https://solved.ac/api/v3/search/problem?query&page="; // solved에 등록된 문제 데이터 가져오는 api 주소	

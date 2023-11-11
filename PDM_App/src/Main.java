@@ -1,13 +1,34 @@
 import fetcher.JsonFetcher;
-import users.AccountManager;
+import problems.ProblemDBManager;
 import users.User;
+import users.UserDBManager;
 
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		
 
-		JsonFetcher.updateProblemDB_FromSolvedAC();
+		// SolvedAC에서 문제 데이터 가져와서 ProblemDB에 추가하기 (900개쯤 가져오면 429에러 발생)
+//		JsonFetcher.updateProblemDB_FromSolvedAC();
+		
+		// UserDB 초기화
+		UserDBManager.init();
+		
+		// UserDB 출력 
+//		UserDBManager.printUserDBMap();
+		
+        long startTime = System.currentTimeMillis();        
+		// ProblemDB 초기화
+		ProblemDBManager.init();		
+		System.out.println("ProblemDB 초기화 소요 시간 : " + (System.currentTimeMillis() - startTime) + "ms");   
+		
+		// ProblemDB 출력
+//		ProblemDBManager.PrintProblemDBMap();
+		
+		User user1 = UserDBManager.findUserByEmail("han@naver.com");
+		JsonFetcher.updateUserSolvedProblemList_FromSolvedAC("hoh9170", user1);
+		System.out.println(user1);
+		
 		
 		
 		// 테스트 유저 데이터
@@ -18,7 +39,9 @@ public class Main {
 //		AccountManager.createAccount(user2);
 //		User user3 = new User("tttt", "ttttt@na.com", "wqers1", "3. 좋아하는 음식은?", "사과");		
 //		AccountManager.createAccount(user3);
-//		
+
+		
+		
 //		// DB 초기화
 //		UserDBManager.init();
 //		

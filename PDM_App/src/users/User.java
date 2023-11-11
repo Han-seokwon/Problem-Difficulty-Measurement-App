@@ -81,7 +81,7 @@ public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도
 		return pwResetAnswer;
 	}
 	
-	public List<SolvedProblem> getSolvedProblemList() {
+	public List<Problem> getSolvedProblemList() {
 		return List.of(solvedProblemList.toArray(new SolvedProblem[0]));// 불변 리스트 반환
 	}
 	public List<Date> getActivityDateList() {
@@ -119,7 +119,7 @@ public class User implements Serializable{ // 객체를 바이트형태로 변환할 수 있도
 		}
     }
     // 해결된 문제를 문제 리스트에 추가함
-    public void addSolvedProblemData(SolvedProblem problem) {
+    public void addSolvedProblemData(Problem problem) {
     	this.solvedProblemList.add(problem);
     }
     
