@@ -98,7 +98,7 @@ public class AccountManager {
 		user.setPassword_hashed(newPassword_hashed);		
 		// 해당 객체 파일 업데이트
 		String filename = FileManager.emailToFilename(user.getEmail());
-		String filepath = String.format("\\users\\UserDB\\%s.txt", filename); // 경로 지정
+		String filepath = String.format("/users/UserDB/%s.txt", filename); // 경로 지정
 		FileManager.createUpdateObjectFile(user, filepath);
 		
 	}
