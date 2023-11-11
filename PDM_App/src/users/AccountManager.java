@@ -74,7 +74,7 @@ public class AccountManager {
 	}
 	
 	// 이메일, 비번을 입력받아 해당 회원이 존재하는지 확인하고, 비번이 일치하는지 확인하는 메서드
-	public static void checklogin(String email, String password) throws NullPointerException{
+	public static User checklogin(String email, String password) throws NullPointerException{
 		System.out.println(email);
 		System.out.println(password);
 		try {
@@ -82,8 +82,11 @@ public class AccountManager {
 			User user = UserDBManager.findUserByEmail(email); // 이메일 없으면 throws NullPointerException
 			// 비밀번호 확인
 			String hashedPw = PasswordManager.hashPassword(password, email);
+			// 입력받은 비밀번호를 해싱하여 user 인스턴스에 저장된 해싱 비밀번호과 비교
 			if(!hashedPw.equals(user.getPassword_hashed())) {
 				throw new NullPointerException("경고 : 비밀번호가 다릅니다.");
+			} else { // 비밀번호가 일치하는 경우
+				return user;
 			}
 		} catch (NullPointerException e) { 
 			throw e;// 에러 메시지를 전달하기 위해 예외 되던지기

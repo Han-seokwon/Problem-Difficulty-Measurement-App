@@ -8,18 +8,22 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import users.AccountManager;
+import users.User;
 
 public class LoginFrame extends JFrame{
 	// 로그인을 진행하는 프레임, 비밀번호 초기화 버튼 클릭시 초기화용 프레임을 오픈함
 	private JTextField emailField;
 	private JPasswordField passwordField;
-	public LoginFrame() {
-
+	// 로그인 성공한 경우 메인프레임의 로그인 관련 컴포넌트를 업데이트 하기위해 멤버로 메인프레임 객체를 가짐
+	private MainFrame mainFrame;  
+	public LoginFrame(MainFrame mainFrame) {
+		// 메인 프레임 객체로 업데이트
+		this.mainFrame = mainFrame; 
+		
 		// 컴포넌트 생성 및 초기화
 		JLabel emailLabel = new JLabel("이메일:");
 		emailField = new JTextField(20);
@@ -49,7 +53,7 @@ public class LoginFrame extends JFrame{
 		// 프레임 속성 설정
 		setTitle("로그인");
 		setSize(500, 500);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 추후 DISPOSE_ON_CLOSE로 변경
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setVisible(true);
 	}
 
@@ -60,16 +64,20 @@ public class LoginFrame extends JFrame{
 			String email = emailField.getText();
 			String password = new String(passwordField.getPassword());
 			boolean loginSuccess = true;
-			String dialogMsg = "로그인 성공";
+			String dialogMsg = "로그인 성공";	
+			User user = new User();
 			try {
-				AccountManager.checklogin(email, password);	// 로그인 정보 유효성 확인					
+				user = AccountManager.checklogin(email, password);	// 로그인 정보 유효성 확인					
 			} catch (NullPointerException err) {					
 				dialogMsg = err.getMessage();
 				loginSuccess = false;					
 			}	                
 			JOptionPane.showMessageDialog(null, dialogMsg); // 로그인 실패, 성공 여부를 알려주는 팝업창 오픈
-			if(loginSuccess) {
-				dispose();
+			System.out.println(user);
+			if(loginSuccess) { // 로그인 성공한 경우				
+				mainFrame.logInComponents(user); // 메인 프레임 로그인관련 컴포넌트 업데이트 및 유저 인스턴스 전달
+				// 로그아웃 버튼으로 바꾸기
+				dispose(); // 로그인 창 닫기
 			}
 		}
 	}

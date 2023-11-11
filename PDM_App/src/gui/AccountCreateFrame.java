@@ -25,9 +25,11 @@ public class AccountCreateFrame extends JFrame{
 	private JPasswordField passwordField, passwordConfirmField;
 	private JComboBox<String> resetPwQuestionComboBox; 
 	private String[] resetPwQuestionList; // 비번 초기화용 질문을 저장할 리스트 -> 콤보박스로 변환
-
+	private MainFrame mainFrame;
 	// 생성자
-	public AccountCreateFrame() {
+	public AccountCreateFrame(MainFrame mainFrame) {
+		this.mainFrame = mainFrame;
+		
 		// 컴포넌트 생성 및 초기화
 		JLabel nameLabel = new JLabel("<html>*성명: <br> (특수 문자 입력 불가)<html>");
 		JLabel emailLabel = new JLabel("*이메일:");
@@ -75,7 +77,7 @@ public class AccountCreateFrame extends JFrame{
 		// 프레임 속성 설정
 		setTitle("회원 가입");
 		setSize(1000, 700);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 추후 DISPOSE_ON_CLOSE로 변경
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
 		setVisible(true);
 	}
 
@@ -114,9 +116,11 @@ public class AccountCreateFrame extends JFrame{
 			String title =  isVaildInput ? "회원가입 성공" : "회원가입 실패";
 			JOptionPane.showMessageDialog(null, dialogMsg, title, msgType);	
 			
-			if(isVaildInput) {	// 회원 정보
+			if(isVaildInput) {	// 회원 정보가 유효한 경우 
 				// TODO : UserDB 폴더, 유저 해시맵 저장 실패에 대한 예외 처리하기 
-				AccountManager.createAccount(new User(name, email, password, resetPwQuestionList[selectedQuestionNum], answer));
+				User newUser = new User(name, email, password, resetPwQuestionList[selectedQuestionNum], answer); // 새로운 User 객체 생성
+				AccountManager.createAccount(newUser);
+				mainFrame.logInComponents(newUser); // 메인 프레임 로그인 컴포넌트 업데이트
 				dispose(); // 창 닫음
 			}	
 		}

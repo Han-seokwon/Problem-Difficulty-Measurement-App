@@ -20,8 +20,8 @@ import users.RANK;
 import users.User;
 
 public class JsonFetcher {
-	final static int PROBLEM_CNT_PER_PAGE = 50; // 한 페이지당 최대로 가져올 수 있는 문제 개수
-	final static String BOJ_PROBLEM_PATH = "https://www.acmicpc.net/problem/";
+	private final static int PROBLEM_CNT_PER_PAGE = 50; // 한 페이지당 최대로 가져올 수 있는 문제 개수
+	private final static String BOJ_PROBLEM_PATH = "https://www.acmicpc.net/problem/";
 	
 	/*
 	 * URL에 fetch(HTTP GET request)하여 응답받은 JSON 문자열을 JsonElement로 파싱하여 반환
