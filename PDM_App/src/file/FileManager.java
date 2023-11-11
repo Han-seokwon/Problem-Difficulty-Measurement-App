@@ -1,5 +1,4 @@
 package file;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,9 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-public class FileManager {
-	
+public class FileManager {	
 	/* 
 	 * email을 파일명에 맞게 변환, @를 0으로 .을 1로 바꾸어 저장 ( 예시 qwe@naver.com -> qwe0naver1com )
 	 * User 객체를 파일로 저장할 때 사용
