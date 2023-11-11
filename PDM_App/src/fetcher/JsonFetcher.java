@@ -22,6 +22,7 @@ import users.User;
 public class JsonFetcher {
 	final static int PROBLEM_CNT_PER_PAGE = 50; // 한 페이지당 최대로 가져올 수 있는 문제 개수
 	final static String BOJ_PROBLEM_PATH = "https://www.acmicpc.net/problem/";
+	
 	/*
 	 * URL에 fetch(HTTP GET request)하여 응답받은 JSON 문자열을 JsonElement로 파싱하여 반환
 	 * param : fetch할 URL 문자열
@@ -29,6 +30,13 @@ public class JsonFetcher {
 	 */
 	public static JsonObject fetchJsonElementFromUrl(String urlString) throws IOException{
 		try {
+			
+			try { // 429 에러 방지용 호출 간격
+				Thread.sleep(1000); //1초 대기
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
 			URL url = new URL(urlString);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
@@ -193,7 +201,7 @@ public class JsonFetcher {
 					Problem problem = createProblemFromJsonElement(items);
 					// 생성된 Problem 인스턴스 ProblemDBManager의 ProblemDBMap에 추가하고 ProblemDB 폴더에 저장
 					System.out.println(problem);
-//					ProblemDBManager.CreateProblem(problem);
+					ProblemDBManager.CreateProblem(problem);
 				}
 			}			
 

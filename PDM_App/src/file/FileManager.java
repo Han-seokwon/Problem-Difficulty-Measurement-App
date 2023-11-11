@@ -28,8 +28,8 @@ public class FileManager {
 	 * return : 소스파일에 대한 절대경로
 	 */
 	public static String getPackageRootDir() {
-		System.out.println(System.getProperty("user.dir")+"\\src");
-		return System.getProperty("user.dir") + String.format("\\src");
+//		System.out.println(System.getProperty("user.dir")+"\\PDM_APP\\src");
+		return System.getProperty("user.dir") +"\\PDM_APP\\src";
 	}
 
 	/*
@@ -41,7 +41,7 @@ public class FileManager {
 	 * return : 파일이 정상적으로 저장되었는지 여부 리턴
 	 */
 	public static boolean createUpdateObjectFile(Object obj, String filepath) {	
-		getPackageRootDir();
+		filepath = getPackageRootDir() + filepath;
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filepath))) {
 			oos.writeObject(obj);
 		} catch (IOException e) {
